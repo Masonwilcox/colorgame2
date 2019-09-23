@@ -1,4 +1,4 @@
-int mode;
+int mode, S, haf;
 //declaring constants
 final int intro = 0;
 final int game = 1;
@@ -15,28 +15,30 @@ color violet  =#A30EF7;
 //array list
 //ArrayList<String> words = new ArrayList<String>();
 
-color [] colors = {red,orange,yellow,green,blue,violet};
-String[] colorwords = {"red","orange","yellow","green","blue","violet"};
+color [] colors = {red, orange, yellow, green, blue, violet};
+String[] colorwords = {"red", "orange", "yellow", "green", "blue", "violet"};
+PImage I; 
+PImage [] bd;
+String leadingZeros = "0";
 
-
-
-
-
-//adding colorwords
-//words.add("red");
-//words.add("orange");
-//words.add("yellow");
-//words.add("green");
-//words.add("blue");
-//words.add("violet");
-
-int C = int(random (0,7));
-int W = int (random(0,7));
+int C = int(random (0, 6));
+int W = int (random(0, 6));
 
 //printlnwords.get(choice);
 
 void setup() {
 
+  I = loadImage("I.jpg");
+  I.resize (800,800);
+    bd = new PImage[5];
+  int index = 0;
+  while (index < 5){
+    if (index+2 < 20) leadingZeros = "0";
+ else leadingZeros ="";
+  bd[index] = loadImage("img/frame_" + leadingZeros + (index+2) + "_delay-0.05s");
+index++;
+
+  }
   size (800, 800);
 
   mode=intro;
@@ -44,6 +46,7 @@ void setup() {
 
 void draw() {
   //mode framework
+
   if (mode == intro) {
     intro();
   } else if (mode==game) {
@@ -55,8 +58,54 @@ void draw() {
   }
 }
 
-void mouseReleased() {
+void mousePressed() {
   if (mode == intro) {
     mode = game;
-  } 
+  } else if (mode==game) {
+
+
+    if (C==W) {
+      truth=true;
+    } else {
+      truth=false;
+    }
+    if (mode == game&& mouseX < 400 ) {
+      answer=true;
+    }
+    if (mode == game&& mouseX > 400 ) {
+      answer=false;
+    }
+    if (truth==answer) {
+      haf = int(random(0, 2));
+
+
+
+      S++;
+    } else {
+      mode=gameOver;
+    }
+    if (haf==0) {
+      C = int(random(0, 6));
+      W=C;
+    }
+    if (haf==1) {
+      C = int(random(0, 6));
+      W = int(random(0, 6));
+    }
+    while (haf==1&&C==W) {
+      C = int(random(0, 6));
+      W = int(random(0, 6));
+    }
+
+
+
+
+
+
+    //game tab-=-=-=-=-=-=-=-=-=
+  } else if (mode==gameOver) {
+    mode = intro;
+  } else {
+    println("mode error"+mode);
+  }
 }
