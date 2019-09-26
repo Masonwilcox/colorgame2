@@ -1,4 +1,4 @@
-int mode, S, haf;
+int mode, S, haf, T, HS,tt ;
 //declaring constants
 final int intro = 0;
 final int game = 1;
@@ -17,8 +17,9 @@ color violet  =#A30EF7;
 
 color [] colors = {red, orange, yellow, green, blue, violet};
 String[] colorwords = {"red", "orange", "yellow", "green", "blue", "violet"};
-PImage I; 
 PImage [] bd;
+PImage [] gob;
+PImage I;
 String leadingZeros = "0";
 
 int C = int(random (0, 6));
@@ -27,19 +28,26 @@ int W = int (random(0, 6));
 //printlnwords.get(choice);
 
 void setup() {
+  T = tt;
+  tt = 300;
 
   I = loadImage("I.jpg");
   I.resize (800,800);
-    bd = new PImage[5];
+  
+    bd = new PImage[4];
   int index = 0;
-  while (index < 5){
-    if (index+2 < 20) leadingZeros = "0";
- else leadingZeros ="";
-  bd[index] = loadImage("img/frame_" + leadingZeros + (index+2) + "_delay-0.05s");
+  while (index < 4){
+  bd[index] = loadImage("bd/frame_" + (index+1) + "_delay-0.05s.gif");
 index++;
-
   }
-  size (800, 800);
+  
+      gob = new PImage[9];
+  int index2 = 0;
+  while (index2 < 9){
+  gob[index2] = loadImage("gob/frame_" + (index2+1) + "_delay-0.03s.gif");
+index2++;
+  }
+  size (800, 800, P2D);
 
   mode=intro;
 }
@@ -56,6 +64,16 @@ void draw() {
   } else {
     println("mode error"+mode);
   }
+  
+  
+  if (T <= 1){
+   mode = gameOver;  
+   T = tt;
+  }
+  else if (T >= 1){
+  T--;  
+  }
+  
 }
 
 void mousePressed() {
@@ -79,8 +97,17 @@ void mousePressed() {
       haf = int(random(0, 2));
 
 
-
+         if ( HS == S){
+      HS++;  
+      }
+      
       S++;
+      if (tt >= 50){
+      tt = tt -10;
+      }else if (tt <= 40)
+      tt = tt - 1;
+      
+      T = tt;
     } else {
       mode=gameOver;
     }
